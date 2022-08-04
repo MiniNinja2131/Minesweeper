@@ -1,5 +1,8 @@
 import random
+import math
 import re
+
+from sqlalchemy import null
 
 # Create an board object to represent the minesweeper game
 class Board:
@@ -141,7 +144,7 @@ class Board:
                 )
             )
 
-        # print the csv strings
+        # Print the csv strings
         indices = [i for i in range(self.dimSize)]
         indices_row = '   '
         cells = []
@@ -202,4 +205,36 @@ def play(dimSize = 10, numBombs = 10):
         print("Congratulations! You have won!")
 
 if __name__ == '__main__':
-    play()   
+    # Data sanitization (Limit user inputting numbers only)
+    while True:
+        try:
+            # Create a board size that the user has specified. Maximum a 10 by 10 
+            boardsize = input("Enter a boardsize: ")
+            # Create mines. The quantity of mines are <= boardsize^2
+            bombQuantity = input("Enter the number of bombs: ")
+
+            # User has not specified the board size or the bomb quantity therefore default values were used
+            if(len(boardsize) == 0 and len(bombQuantity) == 0):
+                play()
+            # User has only specified the quantity of mines
+            elif(len(boardsize) == 0 and len(bombQuantity) != 0):
+                # If specified quantity of mines exceed the board size default values are used
+                if(int(bombQuantity) > int(boardsize)):
+                    play(10, 10)
+                play(10, int(bombQuantity))
+            # User has only specified the board size
+            elif(len(boardsize) != 0 and len(bombQuantity) == 0):
+                # If specified board size is greater than 10 by 10 then default values are used
+                if(int(boardsize) > 10):
+                    play(10, 10)
+                play(int(boardsize), 10)
+            # User has only both the board size and quanity of mines
+            else:
+                # If specified quantity of mines exceed the board size, half the board is filled with mines (custom board if user has entered in two valid input)
+                if(int(bombQuantity) > int(boardsize)):
+                    play(int(boardsize), math.floor(int(pow(int(boardsize), 2)/2)))
+                play(int(boardsize), int(bombQuantity))
+            break
+        except:
+            print("Please enter a valid integer for either the board size or quantity of mines!")
+
