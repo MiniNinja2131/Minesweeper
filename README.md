@@ -1,0 +1,2 @@
+# Minesweeper Game
+Minesweeper is a logic puzzle video game. The game features a grid of squares, with hidden "mines" scattered throughout the board. The objective is to clear the board without detonating any mines, with help from clues about the number of neighboring mines in each field. A default game will initialise a 10 by 10 board with 10 mines scattered randomly where you enter in coordinates on where you wish to dig (row, col).
